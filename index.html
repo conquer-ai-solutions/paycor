@@ -662,6 +662,89 @@ body.dark-mode .skeleton{background:linear-gradient(90deg,#2d3748 0%,#4a5568 50%
 @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
+/* ─────────────────────────────────────────────────────────────────────── */
+/* MICROSOFT TEAMS COLLABORATION SCREEN                                    */
+/* ─────────────────────────────────────────────────────────────────────── */
+.teams-container{
+  display:flex;flex-direction:column;height:100%;background:var(--neutral-50);border-radius:var(--r);border:1px solid var(--neutral-200);overflow:hidden;box-shadow:var(--shadow-md)
+}
+body.dark-mode .teams-container{background:var(--neutral-100);border-color:var(--neutral-200)}
+
+.teams-header{
+  padding:14px 20px;background:#fff;border-bottom:1px solid var(--neutral-200);font-size:14px;font-weight:600;color:var(--neutral-900);display:flex;align-items:center;gap:8px;flex-shrink:0
+}
+body.dark-mode .teams-header{background:var(--neutral-100);border-color:#374151;color:var(--neutral-50)}
+
+.teams-messages{
+  flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px;background:var(--white)
+}
+body.dark-mode .teams-messages{background:var(--neutral-100)}
+
+.teams-message{
+  display:flex;gap:12px;animation:slideUp 0.3s ease-out
+}
+
+.teams-avatar{
+  width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;position:relative;overflow:hidden
+}
+
+.teams-avatar.bot-avatar{
+  background:linear-gradient(135deg,#7C3AED,#A78BFA);color:#fff;display:flex;align-items:center;justify-content:center
+}
+
+.avatar-badge{
+  font-size:18px;line-height:1
+}
+
+.hg-avatar{background:linear-gradient(135deg,#3B82F6,#60A5FA);color:#fff}
+.ca-avatar{background:linear-gradient(135deg,#10B981,#34D399);color:#fff}
+.kb-avatar{background:linear-gradient(135deg,#F59E0B,#FBBF24);color:#fff}
+.nh-avatar{background:linear-gradient(135deg,#06B6D4,#22D3EE);color:#fff}
+
+.teams-content{flex:1}
+
+.teams-meta{
+  display:flex;gap:8px;align-items:center;margin-bottom:4px;font-size:13px
+}
+
+.teams-author{
+  font-weight:600;color:var(--neutral-900)
+}
+body.dark-mode .teams-author{color:var(--neutral-50)}
+
+.teams-time{
+  font-size:12px;color:var(--neutral-500);font-family:'DM Mono',monospace
+}
+
+.teams-text{
+  font-size:13px;color:var(--neutral-700);line-height:1.5;word-wrap:break-word
+}
+body.dark-mode .teams-text{color:var(--neutral-400)}
+
+.teams-text strong{
+  font-weight:600;color:var(--neutral-900)
+}
+body.dark-mode .teams-text strong{color:var(--neutral-50)}
+
+.mention{
+  color:var(--primary);font-weight:500;background:rgba(0,102,204,.08);padding:2px 6px;border-radius:4px
+}
+body.dark-mode .mention{background:rgba(0,102,204,.2)}
+
+.teams-message.bot .teams-text{
+  border-left:3px solid #7C3AED;padding-left:12px
+}
+
+.teams-input-area{
+  padding:12px 20px;background:#fff;border-top:1px solid var(--neutral-200);flex-shrink:0
+}
+body.dark-mode .teams-input-area{background:var(--neutral-100);border-color:#374151}
+
+.teams-input-box{
+  display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:6px;color:var(--neutral-500)
+}
+body.dark-mode .teams-input-box{background:var(--neutral-200);border-color:#4b5563}
+
 /* Responsive mobile optimizations */
 @media(max-width:768px){
   .sidebar{width:64px;padding:8px 4px}
@@ -673,6 +756,11 @@ body.dark-mode .skeleton{background:linear-gradient(90deg,#2d3748 0%,#4a5568 50%
   .kb-hint{font-size:9px;bottom:16px;left:16px}
   .sh-title{font-size:24px}
   .modal-box{width:95%}
+  .teams-messages{padding:12px 16px;gap:10px}
+  .teams-header{padding:12px 16px}
+  .teams-input-area{padding:10px 16px}
+  .teams-avatar{width:32px;height:32px;font-size:11px}
+  .teams-text{font-size:12px}
 }
 </style>
 </head>
@@ -726,6 +814,9 @@ body.dark-mode .skeleton{background:linear-gradient(90deg,#2d3748 0%,#4a5568 50%
         </button>
         <button class="sb-btn" data-s="s-acceptance" onclick="nav('s-acceptance')" title="Accept">
           <span>✅</span><span>Accept</span>
+        </button>
+        <button class="sb-btn" data-s="s-collab" onclick="nav('s-collab')" title="Collaboration">
+          <span>💬</span><span>Collab</span>
         </button>
       </nav>
       <div class="sb-foot">Paycor Inc.<br/>2026</div>
@@ -1119,6 +1210,226 @@ body.dark-mode .skeleton{background:linear-gradient(90deg,#2d3748 0%,#4a5568 50%
         </div>
       </div>
 
+      <!-- ═══ SCREEN 7: COLLABORATION ═══ -->
+      <div class="screen" id="s-collab">
+        <div class="sh">
+          <div>
+            <div class="sh-title">Team Collaboration</div>
+            <div class="sh-sub">Real-time Microsoft Teams integration — deal updates and document alerts</div>
+          </div>
+        </div>
+
+        <div class="teams-container">
+          <div class="teams-header"># deal-desk</div>
+          <div class="teams-messages">
+
+            <!-- Message: Deal Assistant Bot - 8:30 AM -->
+            <div class="teams-message bot">
+              <div class="teams-avatar bot-avatar">
+                <span class="avatar-badge">🤖</span>
+              </div>
+              <div class="teams-content">
+                <div class="teams-meta">
+                  <span class="teams-author">Deal Assistant Bot</span>
+                  <span class="teams-time">8:30 AM</span>
+                </div>
+                <div class="teams-text">
+                  <strong>📋 Deal Update — Arctic Breeze Holdings:</strong> Document completion now at 72%. 13 of 18 documents received. 5 outstanding items flagged. <span class="mention">@Holly Gottschall</span> — the WOTC agreement is missing a required phone number field.
+                </div>
+              </div>
+            </div>
+
+            <!-- Message: Holly Gottschall - 8:33 AM -->
+            <div class="teams-message user-hg">
+              <div class="teams-avatar hg-avatar">HG</div>
+              <div class="teams-content">
+                <div class="teams-meta">
+                  <span class="teams-author">Holly Gottschall</span>
+                  <span class="teams-time">8:33 AM</span>
+                </div>
+                <div class="teams-text">Thanks for the catch. That's a one-call fix — I'll reach out to the client this morning.</div>
+              </div>
+            </div>
+
+            <!-- Message: Deal Assistant Bot - 8:34 AM -->
+            <div class="teams-message bot">
+              <div class="teams-avatar bot-avatar">
+                <span class="avatar-badge">🤖</span>
+              </div>
+              <div class="teams-content">
+                <div class="teams-meta">
+                  <span class="teams-author">Deal Assistant Bot</span>
+                  <span class="teams-time">8:34 AM</span>
+                </div>
+                <div class="teams-text">
+                  <strong>📎 Validation Alert:</strong> Arctic Breeze Holdings — Direct Deposit Authorization (EIN: 47-2891034) has a routing number that doesn't match the bank name on file. Flagged for manual review.
+                </div>
+              </div>
+            </div>
+
+            <!-- Message: Corey Ando - 8:38 AM -->
+            <div class="teams-message user-ca">
+              <div class="teams-avatar ca-avatar">CA</div>
+              <div class="teams-content">
+                <div class="teams-meta">
+                  <span class="teams-author">Corey Ando</span>
+                  <span class="teams-time">8:38 AM</span>
+                </div>
+                <div class="teams-text">I've seen this before with Arctic — they switched banks last quarter. Let me verify with their CFO.</div>
+              </div>
+            </div>
+
+            <!-- Message: Holly Gottschall - 8:40 AM -->
+            <div class="teams-message user-hg">
+              <div class="teams-avatar hg-avatar">HG</div>
+              <div class="teams-content">
+                <div class="teams-meta">
+                  <span class="teams-author">Holly Gottschall</span>
+                  <span class="teams-time">8:40 AM</span>
+                </div>
+                <div class="teams-text">Good catch. That would have bounced the first payroll run.</div>
+              </div>
+            </div>
+
+            <!-- Message: Deal Assistant Bot - 8:45 AM -->
+            <div class="teams-message bot">
+              <div class="teams-avatar bot-avatar">
+                <span class="avatar-badge">🤖</span>
+              </div>
+              <div class="teams-content">
+                <div class="teams-meta">
+                  <span class="teams-author">Deal Assistant Bot</span>
+                  <span class="teams-time">8:45 AM</span>
+                </div>
+                <div class="teams-text">
+                  <strong>✅ WOTC agreement updated</strong> by Holly Gottschall. Phone number field now populated. Document status: COMPLETE.
+                </div>
+              </div>
+            </div>
+
+            <!-- Message: Deal Assistant Bot - 9:00 AM -->
+            <div class="teams-message bot">
+              <div class="teams-avatar bot-avatar">
+                <span class="avatar-badge">🤖</span>
+              </div>
+              <div class="teams-content">
+                <div class="teams-meta">
+                  <span class="teams-author">Deal Assistant Bot</span>
+                  <span class="teams-time">9:00 AM</span>
+                </div>
+                <div class="teams-text">
+                  <strong>📊 Morning Pipeline:</strong> 3 active deals. Clearwater Logistics — 100% complete, ready for acceptance. Arctic Breeze — 72% (5 items remaining). Summit Ridge — 45% (just started, 8 EINs).
+                </div>
+              </div>
+            </div>
+
+            <!-- Message: Kelly Blackburn - 9:05 AM -->
+            <div class="teams-message user-kb">
+              <div class="teams-avatar kb-avatar">KB</div>
+              <div class="teams-content">
+                <div class="teams-meta">
+                  <span class="teams-author">Kelly Blackburn</span>
+                  <span class="teams-time">9:05 AM</span>
+                </div>
+                <div class="teams-text">Summit Ridge is going to be complex — 8 EINs across 3 states. Can the system generate separate checklists per EIN?</div>
+              </div>
+            </div>
+
+            <!-- Message: Deal Assistant Bot - 9:06 AM -->
+            <div class="teams-message bot">
+              <div class="teams-avatar bot-avatar">
+                <span class="avatar-badge">🤖</span>
+              </div>
+              <div class="teams-content">
+                <div class="teams-meta">
+                  <span class="teams-author">Deal Assistant Bot</span>
+                  <span class="teams-time">9:06 AM</span>
+                </div>
+                <div class="teams-text">
+                  <strong>✅ Done.</strong> 8 entity-specific checklists generated for Summit Ridge. Total: 47 documents required across all entities. I've pre-mapped which documents can be shared across EINs vs. entity-specific.
+                </div>
+              </div>
+            </div>
+
+            <!-- Message: Kelly Blackburn - 9:08 AM -->
+            <div class="teams-message user-kb">
+              <div class="teams-avatar kb-avatar">KB</div>
+              <div class="teams-content">
+                <div class="teams-meta">
+                  <span class="teams-author">Kelly Blackburn</span>
+                  <span class="teams-time">9:08 AM</span>
+                </div>
+                <div class="teams-text">That's incredible. Would have taken me half a day to map that manually.</div>
+              </div>
+            </div>
+
+            <!-- Message: Natalie Hernandez - 9:15 AM -->
+            <div class="teams-message user-nh">
+              <div class="teams-avatar nh-avatar">NH</div>
+              <div class="teams-content">
+                <div class="teams-meta">
+                  <span class="teams-author">Natalie Hernandez</span>
+                  <span class="teams-time">9:15 AM</span>
+                </div>
+                <div class="teams-text">Clearwater is at 100% — all docs validated, signatures verified. Can we push to acceptance?</div>
+              </div>
+            </div>
+
+            <!-- Message: Deal Assistant Bot - 9:16 AM -->
+            <div class="teams-message bot">
+              <div class="teams-avatar bot-avatar">
+                <span class="avatar-badge">🤖</span>
+              </div>
+              <div class="teams-content">
+                <div class="teams-meta">
+                  <span class="teams-author">Deal Assistant Bot</span>
+                  <span class="teams-time">9:16 AM</span>
+                </div>
+                <div class="teams-text">
+                  <strong>✅ Clearwater Logistics ready for final acceptance.</strong> All 18 documents validated. Zero open issues. Compliance checks passed. <span class="mention">@Corey Ando</span> approval needed to proceed.
+                </div>
+              </div>
+            </div>
+
+            <!-- Message: Corey Ando - 9:18 AM -->
+            <div class="teams-message user-ca">
+              <div class="teams-avatar ca-avatar">CA</div>
+              <div class="teams-content">
+                <div class="teams-meta">
+                  <span class="teams-author">Corey Ando</span>
+                  <span class="teams-time">9:18 AM</span>
+                </div>
+                <div class="teams-text">Approved. Let's close this one out. 🎉</div>
+              </div>
+            </div>
+
+            <!-- Message: Deal Assistant Bot - 9:18 AM -->
+            <div class="teams-message bot">
+              <div class="teams-avatar bot-avatar">
+                <span class="avatar-badge">🤖</span>
+              </div>
+              <div class="teams-content">
+                <div class="teams-meta">
+                  <span class="teams-author">Deal Assistant Bot</span>
+                  <span class="teams-time">9:18 AM</span>
+                </div>
+                <div class="teams-text">
+                  <strong>🎉 Deal Accepted:</strong> Clearwater Logistics — Marcus Chen, 87 employees, 1 EIN. All documents archived. Salesforce updated. Implementation handoff initiated.
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Teams Input Area -->
+          <div class="teams-input-area">
+            <div class="teams-input-box">
+              <span style="color: var(--neutral-500); font-size: 13px;">Message is disabled in this demo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 </div>
@@ -1127,8 +1438,8 @@ body.dark-mode .skeleton{background:linear-gradient(90deg,#2d3748 0%,#4a5568 50%
 <div class="kb-hint">← →  navigate</div>
 
 <script>
-const SCREENS = ['s-problem','s-dashboard','s-checklist','s-validator','s-tracker','s-acceptance'];
-const TITLES  = {'s-problem':'Problem Statement','s-dashboard':'Deal Dashboard','s-checklist':'Checklist Generator','s-validator':'Document Validator','s-tracker':'Multi-EIN Tracker','s-acceptance':'Deal Acceptance'};
+const SCREENS = ['s-problem','s-dashboard','s-checklist','s-validator','s-tracker','s-acceptance','s-collab'];
+const TITLES  = {'s-problem':'Problem Statement','s-dashboard':'Deal Dashboard','s-checklist':'Checklist Generator','s-validator':'Document Validator','s-tracker':'Multi-EIN Tracker','s-acceptance':'Deal Acceptance','s-collab':'Team Collaboration'};
 const ST = {current:'s-problem',banner:'hidden',arcticFixed:false,countdownStart:null,countdownInt:null,darkMode:false};
 
 const STATE_POAS = {FL:'Florida DR-835 (Power of Attorney)',OH:'Ohio Tax Agent Authorization',TX:'Texas Workforce Commission POA',CA:'California FTB 3520 + EDD DE 48',NY:'New York State POA-1',IL:'Illinois POA (IL-2848)',PA:'Pennsylvania Power of Attorney',GA:'Georgia POA (RD-1061)',NC:'North Carolina GEN-58',VA:'Virginia PAR 101',AZ:'Arizona AZ-285',CO:'Colorado DR 0145',NJ:'New Jersey M-5008-R',MA:'Massachusetts M-2848',WA:'Washington State POA'};
