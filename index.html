@@ -3,259 +3,595 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Paycor — Document Collection POC</title>
+<title>Paycor — Document Collection Agent POC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
+<!-- ═══ GLOBAL ALERT BANNER ═══ -->
+<div id="global-banner" class="global-banner banner-hidden">
+  <div class="banner-inner">
+    <div class="banner-left">
+      <span class="pulse-dot" id="banner-dot"></span>
+      <span class="banner-badge" id="banner-badge">DISRUPTION ACTIVE</span>
+      <span class="banner-text" id="banner-text">Arctic Breeze Holdings LLC · Bank Auth missing signature · WOTC phone number blank · Deal acceptance blocked</span>
+    </div>
+    <div class="banner-right">
+      <span class="banner-timer" id="banner-timer"></span>
+      <button class="banner-btn" id="banner-resolve-btn" onclick="navigateTo('screen-validator')">Resolve →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NAVIGATION BAR ═══ -->
+<nav class="navbar">
+  <div class="navbar-left">
     <div class="nav-logo">
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-        <rect width="32" height="32" rx="6" fill="#045BA4"/>
-        <path d="M8 22 L16 10 L24 22" stroke="#F47920" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <path d="M11.5 18 L20.5 18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="5" fill="#045BA4"/>
+        <path d="M7 20L14 9L21 20" stroke="#F47920" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M10 17H18" stroke="white" stroke-width="2" stroke-linecap="round"/>
       </svg>
-      <span class="nav-brand">Paycor <span class="nav-brand-sub">/ Document Agent POC</span></span>
+      <span class="nav-brand">Paycor <span class="nav-sub">Document Collection Agent</span></span>
     </div>
-    <div class="nav-tabs">
-      <button class="nav-tab active" data-view="checklist">Deal Checklist</button>
-      <button class="nav-tab" data-view="validator">Doc Validator</button>
-      <button class="nav-tab" data-view="tracker">EIN Tracker</button>
-    </div>
-    <div class="nav-badge">LIVE POC</div>
+  </div>
+  <div class="navbar-center">
+    <span class="nav-screen-title" id="nav-screen-title">Problem Statement</span>
+  </div>
+  <div class="navbar-right">
+    <span class="nav-user">K. Blackburn · Strategic Initiatives</span>
+    <span class="nav-time" id="nav-time">06:14 · Mon 24 Mar</span>
+    <span class="nav-poc-badge">POC SESSION</span>
   </div>
 </nav>
 
-<!-- VIEWS -->
-<main class="main">
+<!-- ═══ LAYOUT WRAPPER ═══ -->
+<div class="layout">
 
-  <!-- ═══════════════════════════════════════════
-       VIEW 1: CSA-DRIVEN CHECKLIST GENERATOR
-  ════════════════════════════════════════════ -->
-  <div class="view active" id="view-checklist">
-    <div class="view-header">
-      <div>
-        <h1 class="view-title">Deal Document Checklist</h1>
-        <p class="view-sub">Enter deal details — the system generates the exact document set required. No memory. No Excel.</p>
+  <!-- ═══ LEFT SIDEBAR ═══ -->
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <button class="sidebar-btn active" data-screen="screen-problem" onclick="navigateTo('screen-problem')" title="Problem">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v5M10 14v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Problem</span>
+      </button>
+      <button class="sidebar-btn" data-screen="screen-dashboard" onclick="navigateTo('screen-dashboard')" title="Dashboard">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="sidebar-btn" data-screen="screen-checklist" onclick="navigateTo('screen-checklist')" title="Checklist">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4H5a1 1 0 00-1 1v11a1 1 0 001 1h10a1 1 0 001-1V5a1 1 0 00-1-1h-2" stroke="currentColor" stroke-width="1.5"/><rect x="7" y="2" width="6" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M7 10l1.5 1.5L12 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Checklist</span>
+      </button>
+      <button class="sidebar-btn has-alert" data-screen="screen-validator" onclick="navigateTo('screen-validator')" title="Validator">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L2 7v6l8 5 8-5V7L10 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 12v-4M10 14v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Validator</span>
+        <span class="alert-dot" id="validator-dot"></span>
+      </button>
+      <button class="sidebar-btn" data-screen="screen-tracker" onclick="navigateTo('screen-tracker')" title="EIN Tracker">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 4V2M14 4V2M2 8h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>EIN Tracker</span>
+      </button>
+      <button class="sidebar-btn" data-screen="screen-acceptance" onclick="navigateTo('screen-acceptance')" title="Acceptance">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M6.5 10l2.5 2.5 4.5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Acceptance</span>
+      </button>
+    </nav>
+    <div class="sidebar-footer">Powered by<br/><span class="conquer-brand">Conquer AI</span></div>
+  </aside>
+
+  <!-- ═══ MAIN CONTENT ═══ -->
+  <main class="main-content" id="main-content">
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-bar" id="progress-bar"></div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN 0 — PROBLEM STATEMENT
+    ══════════════════════════════════════ -->
+    <div class="screen active" id="screen-problem">
+      <div class="problem-hero">
+        <div class="problem-overline">WHAT WE HEARD</div>
+        <h1 class="problem-headline">Five problems.<br/>One platform.</h1>
+        <p class="problem-sub">In our discovery sessions on 23 February with Cliff, Natalie, Kelly and Holly, Paycor's sales team described five interconnected failures. Each one is costing sell time, deal velocity, and revenue. This platform addresses all five.</p>
       </div>
-    </div>
 
-    <div class="two-col">
-      <!-- INPUT PANEL -->
-      <div class="panel">
-        <div class="panel-head">Deal Configuration</div>
-        <div class="panel-body">
-
-          <div class="field-group">
-            <label class="field-label">Client Legal Name</label>
-            <input class="field-input" id="cl-client-name" type="text" placeholder="e.g. Arctic Breeze Holdings LLC"/>
+      <div class="problem-cards">
+        <div class="problem-card" onclick="navigateTo('screen-dashboard')">
+          <div class="problem-card-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="3" width="9" height="9" rx="2" stroke="#045BA4" stroke-width="1.8"/><rect x="16" y="3" width="9" height="9" rx="2" stroke="#045BA4" stroke-width="1.8"/><rect x="3" y="16" width="9" height="9" rx="2" stroke="#045BA4" stroke-width="1.8"/><rect x="16" y="16" width="9" height="9" rx="2" stroke="#045BA4" stroke-width="1.8"/></svg>
           </div>
+          <div class="problem-card-title">No Orchestration Layer</div>
+          <div class="problem-card-desc">Salesforce, QPath, Conga, DocuSign, email, and Excel checklists — six tools with no system connecting them. Nobody knows what's been requested, received, or missing.</div>
+          <div class="problem-stat">0</div>
+          <div class="problem-stat-label">centralised deal views across 400–500 sellers</div>
+        </div>
 
-          <div class="field-group">
-            <label class="field-label">Products Sold <span class="field-hint">select all that apply</span></label>
-            <div class="checkbox-grid" id="products">
-              <label class="cb-item"><input type="checkbox" value="hcm_core" checked/><span>HCM Core</span></label>
-              <label class="cb-item"><input type="checkbox" value="payroll" checked/><span>Payroll & Tax</span></label>
-              <label class="cb-item"><input type="checkbox" value="benefits"/><span>Benefits Advisor</span></label>
-              <label class="cb-item"><input type="checkbox" value="wotc" checked/><span>WOTC (Equifax)</span></label>
-              <label class="cb-item"><input type="checkbox" value="ondemand"/><span>OnDemand Pay</span></label>
-              <label class="cb-item"><input type="checkbox" value="work_number"/><span>The Work Number</span></label>
-              <label class="cb-item"><input type="checkbox" value="recruiting"/><span>Recruiting Pro</span></label>
-              <label class="cb-item"><input type="checkbox" value="learning"/><span>Learning Mgmt</span></label>
-              <label class="cb-item"><input type="checkbox" value="time"/><span>Time & Attendance</span></label>
-              <label class="cb-item"><input type="checkbox" value="401k"/><span>401(k) EDI</span></label>
-            </div>
+        <div class="problem-card" onclick="navigateTo('screen-checklist')">
+          <div class="problem-card-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 3L4 8v7l10 6 10-6V8L14 3z" stroke="#045BA4" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 15V9M14 19v.5" stroke="#045BA4" stroke-width="1.8" stroke-linecap="round"/></svg>
           </div>
+          <div class="problem-card-title">Memory-Based Checklists</div>
+          <div class="problem-card-desc">Sellers determine what documents are required from memory and informal Excel checklists. State-specific rules vary by deal. Cliff described deals rejected because notarisation wasn't flagged upfront.</div>
+          <div class="problem-stat">50%+</div>
+          <div class="problem-stat-label">of seller time lost to admin — not selling</div>
+        </div>
 
-          <div class="field-row">
-            <div class="field-group">
-              <label class="field-label">Number of EINs</label>
-              <input class="field-input" id="cl-ein-count" type="number" min="1" max="200" value="1"/>
-            </div>
-            <div class="field-group">
-              <label class="field-label">Employees</label>
-              <input class="field-input" id="cl-employees" type="number" min="1" value="45"/>
-            </div>
+        <div class="problem-card" onclick="navigateTo('screen-tracker')">
+          <div class="problem-card-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="6" width="22" height="16" rx="2" stroke="#045BA4" stroke-width="1.8"/><path d="M8 6V4M20 6V4M3 12h22" stroke="#045BA4" stroke-width="1.8" stroke-linecap="round"/></svg>
           </div>
+          <div class="problem-card-title">Multi-EIN Chaos</div>
+          <div class="problem-card-desc">On multi-entity deals, every EIN needs its own Bank Auth, MICR Sheet, IRS 8655, and State POA. Natalie manually tracked 89 separate DocuSign requests for a single deal — in her inbox.</div>
+          <div class="problem-stat">89</div>
+          <div class="problem-stat-label">separate DocuSigns — 1 deal, manually tracked</div>
+        </div>
 
-          <div class="field-group">
-            <label class="field-label">States of Operation <span class="field-hint">comma separated</span></label>
-            <input class="field-input" id="cl-states" type="text" placeholder="FL, OH, TX"/>
+        <div class="problem-card" onclick="navigateTo('screen-validator')">
+          <div class="problem-card-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="#045BA4" stroke-width="1.8"/><path d="M9 14l3.5 3.5L20 10" stroke="#045BA4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
+          <div class="problem-card-title">No Completeness Check</div>
+          <div class="problem-card-desc">Documents pass through the sales process with missing required fields. The Arctic Breeze WOTC form was submitted and accepted with a blank mandatory phone number — undetected until acceptance queue.</div>
+          <div class="problem-stat">0</div>
+          <div class="problem-stat-label">automated field-level validation checks today</div>
+        </div>
 
-          <div class="field-group">
-            <label class="field-label">Bank Name</label>
-            <input class="field-input" id="cl-bank" type="text" placeholder="e.g. UMB, NA"/>
+        <div class="problem-card" onclick="navigateTo('screen-acceptance')">
+          <div class="problem-card-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 3l3 8h8l-6.5 4.7 2.5 8L14 19l-7 4.7 2.5-8L3 11h8z" stroke="#045BA4" stroke-width="1.8" stroke-linejoin="round"/></svg>
           </div>
-
-          <div class="field-group">
-            <label class="field-label">Payroll Frequency</label>
-            <select class="field-input" id="cl-payroll-freq">
-              <option value="biweekly">Bi-weekly (26x/yr)</option>
-              <option value="weekly">Weekly (52x/yr)</option>
-              <option value="semimonthly">Semi-monthly (24x/yr)</option>
-              <option value="monthly">Monthly (12x/yr)</option>
-            </select>
-          </div>
-
-          <button class="btn-primary full-width" id="btn-generate-checklist">
-            <span class="btn-icon">⚡</span> Generate Document Checklist
-          </button>
+          <div class="problem-card-title">Manual Acceptance Queue</div>
+          <div class="problem-card-desc">A team of 6–10 people manually reviews every completed deal package — checking signatures, validating completeness, confirming documents are present. Rule-based work done entirely by hand. Queue creates delays.</div>
+          <div class="problem-stat">6–10</div>
+          <div class="problem-stat-label">people manually checking boxes every deal</div>
         </div>
       </div>
 
-      <!-- OUTPUT PANEL -->
-      <div class="panel" id="checklist-output-panel">
-        <div class="panel-head">
-          Required Documents
-          <span class="panel-badge" id="checklist-count" style="display:none"></span>
-        </div>
-        <div class="panel-body" id="checklist-output">
-          <div class="empty-state">
-            <div class="empty-icon">📋</div>
-            <div class="empty-title">No checklist yet</div>
-            <div class="empty-sub">Configure the deal on the left and hit Generate</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════
-       VIEW 2: DOCUMENT COMPLETENESS VALIDATOR
-  ════════════════════════════════════════════ -->
-  <div class="view" id="view-validator">
-    <div class="view-header">
-      <div>
-        <h1 class="view-title">Document Validator</h1>
-        <p class="view-sub">Paste document data or describe what was submitted. The system checks completeness and flags gaps before the deal goes to acceptance.</p>
-      </div>
-    </div>
-
-    <div class="two-col">
-      <div class="panel">
-        <div class="panel-head">Document Submission</div>
-        <div class="panel-body">
-
-          <div class="field-group">
-            <label class="field-label">Document Type</label>
-            <select class="field-input" id="val-doc-type">
-              <option value="bank_auth">Bank Authorization</option>
-              <option value="irs_8655">IRS Form 8655</option>
-              <option value="wotc">WOTC Agreement (Equifax)</option>
-              <option value="state_poa">State Power of Attorney</option>
-              <option value="csa">Order for Services (CSA)</option>
-              <option value="micr">MICR Spec Sheet</option>
-            </select>
-          </div>
-
-          <div class="field-group">
-            <label class="field-label">Submitted Fields <span class="field-hint">paste what the client returned</span></label>
-            <textarea class="field-input field-textarea" id="val-submitted" placeholder="Paste field values here, e.g:&#10;Client Name: Arctic Breeze Holdings LLC&#10;FEIN: 413945539&#10;Routing Number: 101000695&#10;Account Number: 9872711475&#10;Signatory: Ed Patrosso&#10;Title: CFO&#10;Date Signed: 2/2/2026&#10;Phone: [BLANK]&#10;Purposes: AutoDebit, Direct Deposit"></textarea>
-          </div>
-
-          <div class="field-group">
-            <label class="field-label">State (if applicable)</label>
-            <select class="field-input" id="val-state">
-              <option value="">N/A</option>
-              <option value="FL" selected>Florida</option>
-              <option value="OH">Ohio</option>
-              <option value="TX">Texas</option>
-              <option value="CA">California</option>
-              <option value="NY">New York</option>
-              <option value="IL">Illinois</option>
-              <option value="PA">Pennsylvania</option>
-            </select>
-          </div>
-
-          <!-- Quick-load the Arctic Breeze example -->
-          <button class="btn-secondary full-width" id="btn-load-example" style="margin-bottom:10px">
-            Load Arctic Breeze Example (Live Deal)
-          </button>
-
-          <button class="btn-primary full-width" id="btn-validate">
-            <span class="btn-icon">🔍</span> Validate Document
-          </button>
-        </div>
+      <div class="case-thread-callout">
+        <div class="case-thread-label">THE DEAL WE'LL FOLLOW TODAY</div>
+        <div class="case-thread-text"><strong>Arctic Breeze Holdings LLC</strong> — a real closing-stage deal prepared by Cliff Soli, signed 2 February 2026. Client: 45 employees, Florida-based, single EIN. Six documents in the packet. One critical gap found on validation: WOTC Agreement submitted with a blank mandatory phone number — passed through the current process entirely undetected. We will follow this deal through every screen.</div>
       </div>
 
-      <div class="panel">
-        <div class="panel-head">Validation Report</div>
-        <div class="panel-body" id="validator-output">
-          <div class="empty-state">
-            <div class="empty-icon">✅</div>
-            <div class="empty-title">Awaiting submission</div>
-            <div class="empty-sub">Submit a document to run completeness validation</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════
-       VIEW 3: MULTI-EIN TRACKER
-  ════════════════════════════════════════════ -->
-  <div class="view" id="view-tracker">
-    <div class="view-header">
-      <div>
-        <h1 class="view-title">Multi-EIN Entity Tracker</h1>
-        <p class="view-sub">Natalie's 89-DocuSign problem — solved. One structured view across all entities. Shared data identified once, entity-specific tracked separately.</p>
-      </div>
-      <button class="btn-primary" id="btn-add-ein">+ Add Entity</button>
-    </div>
-
-    <div id="tracker-entities"></div>
-
-    <div class="tracker-summary-bar" id="tracker-summary" style="display:none">
-      <div class="summary-item">
-        <div class="summary-num" id="sum-entities">0</div>
-        <div class="summary-label">Entities</div>
-      </div>
-      <div class="summary-item">
-        <div class="summary-num" id="sum-docs">0</div>
-        <div class="summary-label">Docs Required</div>
-      </div>
-      <div class="summary-item">
-        <div class="summary-num green" id="sum-complete">0</div>
-        <div class="summary-label">Complete</div>
-      </div>
-      <div class="summary-item">
-        <div class="summary-num red" id="sum-outstanding">0</div>
-        <div class="summary-label">Outstanding</div>
-      </div>
-      <div class="summary-item full-width">
-        <button class="btn-primary" id="btn-analyze-tracker">
-          <span class="btn-icon">🤖</span> AI: Identify Shared Data & Generate Plan
+      <div class="problem-cta">
+        <button class="btn-primary btn-large" id="btn-see-solution" onclick="handleSeeSolution()">
+          <span class="btn-label">See the Solution →</span>
+          <span class="btn-spinner" style="display:none"></span>
         </button>
+        <div class="problem-cta-sub">5 screens · 5 minutes · 1 real deal</div>
       </div>
     </div>
 
-    <div class="panel" id="tracker-ai-output" style="display:none; margin-top:16px">
-      <div class="panel-head">AI Analysis — Entity Plan</div>
-      <div class="panel-body" id="tracker-ai-content"></div>
+    <!-- ══════════════════════════════════════
+         SCREEN 1 — DEAL DASHBOARD
+    ══════════════════════════════════════ -->
+    <div class="screen" id="screen-dashboard">
+      <div class="screen-header">
+        <div>
+          <h1 class="screen-title">Deal Operations Dashboard</h1>
+          <div class="screen-sub">Monday 24 Mar 2026 · Last sync: Salesforce 2 min ago · QPath 4 min ago</div>
+        </div>
+        <button class="btn-ghost" onclick="navigateTo('screen-checklist')">New Deal Checklist →</button>
+      </div>
+
+      <div class="kpi-row" id="kpi-row">
+        <div class="kpi-card kpi-red">
+          <div class="kpi-label">Deals Incomplete</div>
+          <div class="kpi-value" id="kpi-incomplete">7</div>
+          <div class="kpi-delta">↑ 2 vs last week · docs missing</div>
+        </div>
+        <div class="kpi-card kpi-amber">
+          <div class="kpi-label">Awaiting Signature</div>
+          <div class="kpi-value" id="kpi-awaiting">12</div>
+          <div class="kpi-delta">3 chases sent today</div>
+        </div>
+        <div class="kpi-card kpi-green">
+          <div class="kpi-label">Deals Ready</div>
+          <div class="kpi-value" id="kpi-ready">23</div>
+          <div class="kpi-delta">↑ 5 vs last week</div>
+        </div>
+        <div class="kpi-card kpi-blue">
+          <div class="kpi-label">In Acceptance Queue</div>
+          <div class="kpi-value" id="kpi-queue">4</div>
+          <div class="kpi-delta">avg. 2.3 days in queue</div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="panel panel-60">
+          <div class="panel-head">
+            LIVE DEALS
+            <span class="badge badge-red">3 NEED ACTION</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Account</th><th>Stage</th><th>Docs</th><th>Issue</th><th>AI Status</th><th></th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-alert" id="arctic-row" onclick="navigateTo('screen-validator')" style="cursor:pointer">
+                <td><strong>Arctic Breeze Holdings LLC</strong><br/><span class="cell-sub">Cliff Soli · 45 ee</span></td>
+                <td><span class="badge badge-blue">Stage 7</span></td>
+                <td>5/6 docs</td>
+                <td><span class="badge badge-red">WOTC GAP</span></td>
+                <td><span class="badge badge-green">Fix Available</span></td>
+                <td><button class="btn-ghost btn-sm" onclick="event.stopPropagation();navigateTo('screen-validator')">Resolve →</button></td>
+              </tr>
+              <tr>
+                <td><strong>Meridian Healthcare Group</strong><br/><span class="cell-sub">Natalie Hernandez · 312 ee</span></td>
+                <td><span class="badge badge-blue">Stage 6</span></td>
+                <td>18/31 docs</td>
+                <td><span class="badge badge-amber">MULTI-EIN</span></td>
+                <td><span class="badge badge-amber">In Progress</span></td>
+                <td><button class="btn-ghost btn-sm" onclick="navigateTo('screen-tracker')">Track →</button></td>
+              </tr>
+              <tr>
+                <td><strong>Sunstate Property Mgmt</strong><br/><span class="cell-sub">Cliff Soli · 88 ee</span></td>
+                <td><span class="badge badge-blue">Stage 5</span></td>
+                <td>0/8 docs</td>
+                <td><span class="badge badge-red">NOT STARTED</span></td>
+                <td><span class="badge badge-blue">Checklist Ready</span></td>
+                <td><button class="btn-ghost btn-sm" onclick="navigateTo('screen-checklist')">Build →</button></td>
+              </tr>
+              <tr>
+                <td><strong>Clearwater Logistics LLC</strong><br/><span class="cell-sub">Natalie Hernandez · 156 ee</span></td>
+                <td><span class="badge badge-green">Stage 8</span></td>
+                <td>12/12 docs</td>
+                <td><span class="badge badge-green">COMPLETE</span></td>
+                <td><span class="badge badge-green">Deal Ready</span></td>
+                <td><button class="btn-ghost btn-sm" onclick="navigateTo('screen-acceptance')">Accept →</button></td>
+              </tr>
+              <tr>
+                <td><strong>BlueSky Manufacturing</strong><br/><span class="cell-sub">Cliff Soli · 203 ee</span></td>
+                <td><span class="badge badge-amber">Stage 6</span></td>
+                <td>6/9 docs</td>
+                <td><span class="badge badge-amber">3 PENDING</span></td>
+                <td><span class="badge badge-amber">Chasing</span></td>
+                <td><button class="btn-ghost btn-sm">View →</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="ai-callout">
+            <div class="ai-callout-label">● AI ANALYSIS</div>
+            <div class="ai-callout-body">Arctic Breeze is the priority action — WOTC phone number gap is blocking deal acceptance. Fix takes 2 minutes. Meridian Healthcare has 8 EINs with shared data identified — Bank Auth and IRS 8655 can be batched, reducing 31 DocuSigns to 4 sends. Clearwater Logistics is ready for acceptance queue — all 12 documents complete.</div>
+            <div class="ai-callout-actions">
+              <button class="btn-success btn-sm" id="dash-accept-btn" onclick="handleDashAccept()">
+                <span class="btn-label">Accept</span><span class="btn-spinner" style="display:none"></span>
+              </button>
+              <button class="btn-ghost btn-sm" onclick="handleDashOverride()">Override</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-40">
+          <div class="panel-head">DATA SOURCES</div>
+          <div class="system-row">
+            <span class="sys-dot sys-green"></span>
+            <div class="sys-info">
+              <div class="sys-name">Salesforce</div>
+              <div class="sys-detail">Last sync: 2 min ago · Deal stages · Account data</div>
+            </div>
+          </div>
+          <div class="system-row">
+            <span class="sys-dot sys-green"></span>
+            <div class="sys-info">
+              <div class="sys-name">QPath / Conga</div>
+              <div class="sys-detail">Last sync: 4 min ago · Quote data · Product mix</div>
+            </div>
+          </div>
+          <div class="system-row">
+            <span class="sys-dot sys-amber" title="DocuSign envelope status delayed 8 min"></span>
+            <div class="sys-info">
+              <div class="sys-name">DocuSign</div>
+              <div class="sys-detail">Partial — envelope status delayed 8 min</div>
+            </div>
+          </div>
+          <div class="system-row">
+            <span class="sys-dot sys-green"></span>
+            <div class="sys-info">
+              <div class="sys-name">Equifax WOTC</div>
+              <div class="sys-detail">Connected · External confirmation tracking active</div>
+            </div>
+          </div>
+          <div class="panel-note">All systems connected. No manual extraction required.</div>
+
+          <div class="panel-head" style="margin-top:16px">SELLER ACTIVITY TODAY</div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <span class="activity-time">06:09</span>
+              <span class="activity-text">Bank Auth received — Arctic Breeze · Ed Patrosso (CFO)</span>
+            </div>
+            <div class="activity-item activity-alert">
+              <span class="activity-time">05:52</span>
+              <span class="activity-text">⚠ WOTC validation failed — phone number blank · Arctic Breeze</span>
+            </div>
+            <div class="activity-item">
+              <span class="activity-time">05:44</span>
+              <span class="activity-text">Auto-chase sent — IRS 8655 · Meridian Healthcare · EIN 7</span>
+            </div>
+            <div class="activity-item">
+              <span class="activity-time">04:31</span>
+              <span class="activity-text">Clearwater Logistics — all 12 docs complete · deal ready</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="empty-state" id="tracker-empty">
-      <div class="empty-icon">🏢</div>
-      <div class="empty-title">No entities yet</div>
-      <div class="empty-sub">Add entities to start tracking. Each gets its own document status. Shared data is identified automatically.</div>
-      <button class="btn-primary" style="margin-top:16px" onclick="document.getElementById('btn-add-ein').click()">Add First Entity</button>
+    <!-- ══════════════════════════════════════
+         SCREEN 2 — CHECKLIST GENERATOR
+    ══════════════════════════════════════ -->
+    <div class="screen" id="screen-checklist">
+      <div class="screen-header">
+        <div>
+          <h1 class="screen-title">Deal Document Checklist Generator</h1>
+          <div class="screen-sub">Enter deal configuration — system generates the exact document set. No memory required.</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-head">DEAL CONFIGURATION</div>
+          <div class="panel-body">
+            <div class="field-group">
+              <label class="field-label">Client Legal Name</label>
+              <input class="field-input" id="cl-name" type="text" value="Arctic Breeze Holdings LLC"/>
+            </div>
+            <div class="field-row">
+              <div class="field-group">
+                <label class="field-label">Number of EINs</label>
+                <input class="field-input" id="cl-eins" type="number" min="1" max="200" value="1"/>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Employees</label>
+                <input class="field-input" id="cl-employees" type="number" value="45"/>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">States of Operation <span class="field-hint">comma separated</span></label>
+              <input class="field-input" id="cl-states" type="text" value="FL"/>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Products Sold</label>
+              <div class="checkbox-grid">
+                <label class="cb-item"><input type="checkbox" value="payroll" checked/><span>Payroll & Tax</span></label>
+                <label class="cb-item"><input type="checkbox" value="hcm" checked/><span>HCM Core</span></label>
+                <label class="cb-item"><input type="checkbox" value="wotc" checked/><span>WOTC (Equifax)</span></label>
+                <label class="cb-item"><input type="checkbox" value="benefits"/><span>Benefits Advisor</span></label>
+                <label class="cb-item"><input type="checkbox" value="ondemand"/><span>OnDemand Pay</span></label>
+                <label class="cb-item"><input type="checkbox" value="work_number"/><span>The Work Number</span></label>
+                <label class="cb-item"><input type="checkbox" value="recruiting"/><span>Recruiting Pro</span></label>
+                <label class="cb-item"><input type="checkbox" value="401k"/><span>401(k) EDI</span></label>
+                <label class="cb-item"><input type="checkbox" value="learning"/><span>Learning Mgmt</span></label>
+                <label class="cb-item"><input type="checkbox" value="time"/><span>Time & Attendance</span></label>
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Payroll Frequency</label>
+              <select class="field-input" id="cl-freq">
+                <option value="biweekly" selected>Bi-weekly (26×/yr)</option>
+                <option value="weekly">Weekly (52×/yr)</option>
+                <option value="semimonthly">Semi-monthly (24×/yr)</option>
+                <option value="monthly">Monthly (12×/yr)</option>
+              </select>
+            </div>
+            <button class="btn-primary full-width" id="btn-generate" onclick="handleGenerateChecklist()">
+              <span class="btn-label">⚡ Generate Document Checklist</span>
+              <span class="btn-spinner" style="display:none"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            REQUIRED DOCUMENTS
+            <span class="badge badge-blue" id="checklist-count" style="display:none"></span>
+          </div>
+          <div class="panel-body" id="checklist-output">
+            <div class="empty-state">
+              <div class="empty-icon">📋</div>
+              <div class="empty-title">Configure the deal and hit Generate</div>
+              <div class="empty-sub">The CSA determines what's needed. Everything flows from it.</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
-</main>
+    <!-- ══════════════════════════════════════
+         SCREEN 3 — DOCUMENT VALIDATOR
+    ══════════════════════════════════════ -->
+    <div class="screen" id="screen-validator">
+      <!-- Alert header specific to this screen -->
+      <div class="screen-alert-bar" id="validator-alert-bar">
+        <span class="pulse-dot"></span>
+        <span class="badge badge-white-outline">VALIDATION REQUIRED</span>
+        <span>Arctic Breeze Holdings LLC · WOTC Agreement · Phone number blank · Deal blocked since 05:52</span>
+        <div style="margin-left:auto">
+          <span class="countdown-mono" id="validator-countdown"></span>
+        </div>
+      </div>
 
-<!-- LOADING OVERLAY -->
-<div class="loading-overlay" id="loading-overlay" style="display:none">
-  <div class="loading-box">
-    <div class="loading-spinner"></div>
-    <div class="loading-text" id="loading-text">Running AI analysis...</div>
-  </div>
+      <div class="screen-header" style="margin-top:12px">
+        <div>
+          <h1 class="screen-title">Document Completeness Validator</h1>
+          <div class="screen-sub">Submit a document — system checks every required field. Gaps flagged before acceptance queue.</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-head">DOCUMENT SUBMISSION</div>
+          <div class="panel-body">
+            <div class="field-group">
+              <label class="field-label">Document Type</label>
+              <select class="field-input" id="val-type">
+                <option value="wotc">WOTC Agreement (Equifax)</option>
+                <option value="bank_auth">Bank Authorization</option>
+                <option value="irs_8655">IRS Form 8655</option>
+                <option value="state_poa">State Power of Attorney</option>
+                <option value="csa">Order for Services (CSA)</option>
+                <option value="micr">MICR Spec Sheet</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Submitted Field Values</label>
+              <textarea class="field-input field-textarea" id="val-submitted" placeholder="Paste submitted field values here..."></textarea>
+            </div>
+            <button class="btn-secondary full-width" style="margin-bottom:10px" onclick="loadArcticExample()">Load Arctic Breeze Example (Live Deal)</button>
+            <button class="btn-primary full-width" id="btn-validate" onclick="handleValidate()">
+              <span class="btn-label">🔍 Validate Document</span>
+              <span class="btn-spinner" style="display:none"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">VALIDATION REPORT</div>
+          <div class="panel-body" id="validator-output">
+            <div class="empty-state">
+              <div class="empty-icon">🔍</div>
+              <div class="empty-title">Awaiting document submission</div>
+              <div class="empty-sub">Load the Arctic Breeze example to see it catch the gap the current process missed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN 4 — MULTI-EIN TRACKER
+    ══════════════════════════════════════ -->
+    <div class="screen" id="screen-tracker">
+      <div class="screen-header">
+        <div>
+          <h1 class="screen-title">Multi-EIN Entity Tracker</h1>
+          <div class="screen-sub">Natalie's 89-DocuSign problem — solved. One view across all entities. Shared data identified once.</div>
+        </div>
+        <button class="btn-primary" onclick="addEntity()">+ Add Entity</button>
+      </div>
+
+      <div id="tracker-entities"></div>
+
+      <div class="tracker-summary" id="tracker-summary" style="display:none">
+        <div class="summary-cell"><div class="summary-val" id="sum-entities">0</div><div class="summary-lbl">Entities</div></div>
+        <div class="summary-cell"><div class="summary-val" id="sum-docs">0</div><div class="summary-lbl">Docs Required</div></div>
+        <div class="summary-cell"><div class="summary-val green" id="sum-done">0</div><div class="summary-lbl">Complete</div></div>
+        <div class="summary-cell"><div class="summary-val red" id="sum-out">0</div><div class="summary-lbl">Outstanding</div></div>
+        <div class="summary-cell full-span">
+          <button class="btn-primary" id="btn-analyze" onclick="handleTrackerAnalyze()">
+            <span class="btn-label">🤖 Identify Shared Data & Build Plan</span>
+            <span class="btn-spinner" style="display:none"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="panel" id="tracker-analysis" style="display:none;margin-top:16px">
+        <div class="panel-head">AI ANALYSIS — ENTITY COLLECTION PLAN</div>
+        <div class="panel-body" id="tracker-analysis-content"></div>
+      </div>
+
+      <div class="empty-state" id="tracker-empty">
+        <div class="empty-icon">🏢</div>
+        <div class="empty-title">No entities yet</div>
+        <div class="empty-sub">Add entities above. Shared data identified automatically. Per-entity documents tracked separately.</div>
+        <button class="btn-primary" style="margin-top:16px" onclick="addEntity()">Add First Entity</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCREEN 5 — DEAL ACCEPTANCE
+    ══════════════════════════════════════ -->
+    <div class="screen" id="screen-acceptance">
+      <div class="screen-header">
+        <div>
+          <h1 class="screen-title">Deal Acceptance Queue</h1>
+          <div class="screen-sub">AI validates completeness automatically. Clean deals auto-approve. Exceptions flagged with specific reasons.</div>
+        </div>
+      </div>
+
+      <div class="acceptance-queue">
+        <div class="queue-item queue-ready" id="accept-clearwater">
+          <div class="queue-meta">
+            <div class="queue-name">Clearwater Logistics LLC</div>
+            <div class="queue-sub">Natalie Hernandez · 156 ee · Stage 8 · 12/12 docs · Submitted 04:31</div>
+          </div>
+          <div class="queue-score">
+            <div class="score-ring" data-score="100" data-color="#1E7C45">
+              <svg width="56" height="56"><circle cx="28" cy="28" r="22" fill="none" stroke="#E8E8E8" stroke-width="5"/><circle cx="28" cy="28" r="22" fill="none" stroke="#1E7C45" stroke-width="5" stroke-dasharray="138.2" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 28 28)"/></svg>
+              <span>100</span>
+            </div>
+            <span class="badge badge-green">DEAL READY</span>
+          </div>
+          <div class="queue-action">
+            <button class="btn-success" id="btn-accept-clearwater" onclick="handleAcceptDeal('clearwater')">
+              <span class="btn-label">✓ Auto-Approve</span>
+              <span class="btn-spinner" style="display:none"></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="queue-item queue-warn" id="accept-arctic">
+          <div class="queue-meta">
+            <div class="queue-name">Arctic Breeze Holdings LLC</div>
+            <div class="queue-sub">Cliff Soli · 45 ee · Stage 7 · 5/6 docs · WOTC phone number blank</div>
+          </div>
+          <div class="queue-score">
+            <div class="score-ring">
+              <svg width="56" height="56"><circle cx="28" cy="28" r="22" fill="none" stroke="#E8E8E8" stroke-width="5"/><circle cx="28" cy="28" r="22" fill="none" stroke="#B45309" stroke-width="5" stroke-dasharray="138.2" stroke-dashoffset="27.6" stroke-linecap="round" transform="rotate(-90 28 28)"/></svg>
+              <span style="color:#B45309">80</span>
+            </div>
+            <span class="badge badge-amber">INCOMPLETE</span>
+          </div>
+          <div class="queue-action">
+            <button class="btn-danger" onclick="navigateTo('screen-validator')">Fix Gap →</button>
+          </div>
+        </div>
+
+        <div class="queue-item queue-blocked" id="accept-meridian">
+          <div class="queue-meta">
+            <div class="queue-name">Meridian Healthcare Group</div>
+            <div class="queue-sub">Natalie Hernandez · 312 ee · 8 EINs · Stage 6 · 18/31 docs outstanding</div>
+          </div>
+          <div class="queue-score">
+            <div class="score-ring">
+              <svg width="56" height="56"><circle cx="28" cy="28" r="22" fill="none" stroke="#E8E8E8" stroke-width="5"/><circle cx="28" cy="28" r="22" fill="none" stroke="#C00000" stroke-width="5" stroke-dasharray="138.2" stroke-dashoffset="80.0" stroke-linecap="round" transform="rotate(-90 28 28)"/></svg>
+              <span style="color:#C00000">42</span>
+            </div>
+            <span class="badge badge-red">INCOMPLETE</span>
+          </div>
+          <div class="queue-action">
+            <button class="btn-ghost btn-sm" onclick="navigateTo('screen-tracker')">Track →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-callout" style="margin-top:16px">
+        <div class="ai-callout-label">● AI ANALYSIS</div>
+        <div class="ai-callout-body">Clearwater Logistics is clean — all 12 documents present, all required fields validated, all signatures confirmed in DocuSign. Auto-approval is safe. Arctic Breeze has one outstanding gap: WOTC phone number. Estimate 2 minutes to resolve via client outreach. Meridian Healthcare requires 13 more documents across 8 EINs — use the EIN Tracker to batch the collection.</div>
+        <div class="ai-callout-actions">
+          <button class="btn-success btn-sm" id="accept-ai-btn" onclick="handleAcceptAiAnalysis()">
+            <span class="btn-label">Accept</span><span class="btn-spinner" style="display:none"></span>
+          </button>
+          <button class="btn-ghost btn-sm">Override</button>
+        </div>
+      </div>
+
+      <div class="panel" id="accept-confirm-panel" style="display:none;margin-top:16px">
+        <div class="panel-head">DECISION LOG</div>
+        <div class="panel-body" id="accept-confirm-content"></div>
+      </div>
+    </div>
+
+  </main>
 </div>
+
+<!-- ═══ TOAST CONTAINER ═══ -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- ═══ KEYBOARD HINT ═══ -->
+<div class="keyboard-hint">← →</div>
 
 <script src="app.js"></script>
 </body>
