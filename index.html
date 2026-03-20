@@ -661,40 +661,153 @@ body.dark-mode .skeleton{background:linear-gradient(90deg,#2d3748 0%,#4a5568 50%
 /* ─────────────────────────────────────────────────────────────────────── */
 @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
 /* ─────────────────────────────────────────────────────────────────────── */
 /* MICROSOFT TEAMS COLLABORATION SCREEN                                    */
 /* ─────────────────────────────────────────────────────────────────────── */
-.teams-container{
-  display:flex;flex-direction:column;height:100%;background:var(--neutral-50);border-radius:var(--r);border:1px solid var(--neutral-200);overflow:hidden;box-shadow:var(--shadow-md)
+.teams-main-container{
+  display:flex;height:100%;background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-md)
 }
-body.dark-mode .teams-container{background:var(--neutral-100);border-color:var(--neutral-200)}
+body.dark-mode .teams-main-container{background:var(--neutral-900);border-color:var(--neutral-700)}
 
-.teams-header{
-  padding:14px 20px;background:#fff;border-bottom:1px solid var(--neutral-200);font-size:14px;font-weight:600;color:var(--neutral-900);display:flex;align-items:center;gap:8px;flex-shrink:0
+.teams-sidebar{
+  width:260px;background:#3f4248;display:flex;flex-direction:column;border-right:1px solid #2a2d31;color:#fff;flex-shrink:0
 }
-body.dark-mode .teams-header{background:var(--neutral-100);border-color:#374151;color:var(--neutral-50)}
+body.dark-mode .teams-sidebar{background:#252a2e}
 
-.teams-messages{
-  flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px;background:var(--white)
+.teams-sidebar-header{
+  padding:12px 16px;border-bottom:1px solid #2a2d31;font-weight:600;font-size:13px;color:#a0a4a8
 }
-body.dark-mode .teams-messages{background:var(--neutral-100)}
+
+.teams-sidebar-channels{
+  flex:1;overflow-y:auto;padding:8px 0;font-size:13px
+}
+
+.teams-channel-item{
+  padding:8px 16px;cursor:pointer;color:#a0a4a8;transition:background 0.2s;position:relative;display:flex;align-items:center;gap:8px
+}
+
+.teams-channel-item:hover{
+  background:#464d52;color:#e1e6eb
+}
+
+.teams-channel-item.active{
+  background:#464d52;color:#fff;font-weight:500
+}
+
+.teams-channel-unread{
+  width:16px;height:16px;background:#ff7c5a;border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;color:#fff;margin-left:auto
+}
+
+.teams-content-area{
+  flex:1;display:flex;flex-direction:column;background:#fff
+}
+body.dark-mode .teams-content-area{background:var(--neutral-900)}
+
+.teams-header-bar{
+  padding:12px 20px;background:#fff;border-bottom:1px solid #e5e5e5;display:flex;align-items:center;justify-content:space-between;flex-shrink:0
+}
+body.dark-mode .teams-header-bar{background:var(--neutral-850);border-color:#3a3f45}
+
+.teams-header-left{
+  display:flex;align-items:center;gap:16px;flex:1
+}
+
+.teams-channel-name{
+  font-size:15px;font-weight:600;color:var(--neutral-900)
+}
+body.dark-mode .teams-channel-name{color:var(--neutral-50)}
+
+.teams-tabs{
+  display:flex;gap:20px;margin-left:16px;border-bottom:1px solid #e5e5e5;margin-bottom:-12px;font-size:13px;color:var(--neutral-600)
+}
+body.dark-mode .teams-tabs{border-color:#3a3f45;color:var(--neutral-400)}
+
+.teams-tab{
+  padding:8px 0;cursor:pointer;border-bottom:3px solid transparent;transition:border-color 0.2s;color:inherit
+}
+
+.teams-tab.active{
+  border-color:#6264a7;color:#6264a7;font-weight:500
+}
+
+.teams-header-right{
+  display:flex;align-items:center;gap:12px;margin-left:auto
+}
+
+.teams-member-count{
+  font-size:12px;color:var(--neutral-600);padding:0 8px;border-right:1px solid var(--neutral-300)
+}
+body.dark-mode .teams-member-count{color:var(--neutral-400);border-color:#3a3f45}
+
+.teams-icon-btn{
+  width:32px;height:32px;border-radius:6px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--neutral-600);font-size:16px;transition:background 0.2s
+}
+
+.teams-icon-btn:hover{
+  background:var(--neutral-100)
+}
+body.dark-mode .teams-icon-btn:hover{
+  background:var(--neutral-800)
+}
+
+.teams-messages-container{
+  flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px;background:#fff;font-family:'Segoe UI','Helvetica Neue',sans-serif
+}
+body.dark-mode .teams-messages-container{background:var(--neutral-900)}
+
+.teams-new-messages-divider{
+  display:flex;align-items:center;gap:8px;margin:12px 0;color:#d32f2f;font-size:12px;font-weight:600
+}
+
+.teams-new-messages-line{
+  flex:1;height:1px;background:#d32f2f
+}
 
 .teams-message{
-  display:flex;gap:12px;animation:slideUp 0.3s ease-out
+  display:flex;gap:12px;animation:slideUp 0.4s ease-out;opacity:0;animation-fill-mode:forwards;position:relative
+}
+
+.teams-message:hover{
+  background:var(--neutral-50);border-radius:6px;padding:8px;margin:-8px;transition:background 0.15s
+}
+body.dark-mode .teams-message:hover{
+  background:var(--neutral-800)
+}
+
+.teams-message-actions{
+  opacity:0;position:absolute;right:0;top:-8px;display:flex;gap:4px;padding:4px;background:#fff;border:1px solid var(--neutral-200);border-radius:6px;transition:opacity 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.1);font-size:14px
+}
+body.dark-mode .teams-message-actions{background:var(--neutral-800);border-color:#3a3f45}
+
+.teams-message:hover .teams-message-actions{
+  opacity:1
+}
+
+.teams-message-action-btn{
+  background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;color:var(--neutral-600);font-size:14px
 }
 
 .teams-avatar{
-  width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;position:relative;overflow:hidden
+  width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;position:relative;overflow:hidden;font-family:inherit
 }
 
 .teams-avatar.bot-avatar{
-  background:linear-gradient(135deg,#7C3AED,#A78BFA);color:#fff;display:flex;align-items:center;justify-content:center
+  background:#6264a7;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px
 }
 
 .avatar-badge{
   font-size:18px;line-height:1
 }
+
+.avatar-presence{
+  position:absolute;bottom:0;right:0;width:10px;height:10px;border-radius:50%;border:2px solid #fff;font-size:6px
+}
+
+.avatar-presence.online{background:#28a745}
+.avatar-presence.away{background:#ffc107}
+.avatar-presence.offline{background:#6c757d}
 
 .hg-avatar{background:linear-gradient(135deg,#3B82F6,#60A5FA);color:#fff}
 .ca-avatar{background:linear-gradient(135deg,#10B981,#34D399);color:#fff}
@@ -704,45 +817,187 @@ body.dark-mode .teams-messages{background:var(--neutral-100)}
 .teams-content{flex:1}
 
 .teams-meta{
-  display:flex;gap:8px;align-items:center;margin-bottom:4px;font-size:13px
+  display:flex;gap:8px;align-items:center;margin-bottom:4px;font-size:12px
 }
 
 .teams-author{
-  font-weight:600;color:var(--neutral-900)
+  font-weight:600;color:var(--neutral-900);font-family:'Segoe UI','Helvetica Neue',sans-serif
 }
 body.dark-mode .teams-author{color:var(--neutral-50)}
 
 .teams-time{
-  font-size:12px;color:var(--neutral-500);font-family:'DM Mono',monospace
+  font-size:11px;color:var(--neutral-500);font-family:'Segoe UI','Helvetica Neue',sans-serif
 }
 
 .teams-text{
-  font-size:13px;color:var(--neutral-700);line-height:1.5;word-wrap:break-word
+  font-size:13px;color:var(--neutral-700);line-height:1.5;word-wrap:break-word;font-family:'Segoe UI','Helvetica Neue',sans-serif
 }
-body.dark-mode .teams-text{color:var(--neutral-400)}
+body.dark-mode .teams-text{color:var(--neutral-300)}
 
 .teams-text strong{
   font-weight:600;color:var(--neutral-900)
 }
 body.dark-mode .teams-text strong{color:var(--neutral-50)}
 
+.teams-card{
+  background:#f3f2f1;border:1px solid #d0ccc8;border-radius:4px;padding:12px;margin-top:8px;border-left:4px solid #6264a7;font-size:13px
+}
+body.dark-mode .teams-card{background:var(--neutral-800);border-color:#4a5059}
+
+.teams-card-title{
+  font-weight:600;margin-bottom:8px;color:var(--neutral-900)
+}
+body.dark-mode .teams-card-title{color:var(--neutral-50)}
+
+.teams-card-row{
+  display:flex;justify-content:space-between;margin-bottom:6px;font-size:12px
+}
+
+.teams-card-label{
+  color:var(--neutral-600);font-weight:500
+}
+body.dark-mode .teams-card-label{color:var(--neutral-400)}
+
+.teams-card-value{
+  color:var(--neutral-900);font-weight:500
+}
+body.dark-mode .teams-card-value{color:var(--neutral-100)}
+
+.teams-progress-bar{
+  width:100%;height:6px;background:#d0ccc8;border-radius:3px;margin:8px 0;overflow:hidden
+}
+body.dark-mode .teams-progress-bar{background:#4a5059}
+
+.teams-progress-fill{
+  height:100%;background:linear-gradient(90deg,#6264a7,#7c7ce0);border-radius:3px
+}
+
+.teams-status-badge{
+  display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:16px;font-size:11px;font-weight:600;margin:4px 4px 4px 0
+}
+
+.teams-status-badge.complete{
+  background:#d4edda;color:#155724
+}
+
+.teams-status-badge.inprogress{
+  background:#fff3cd;color:#856404
+}
+
+.teams-status-badge.blocked{
+  background:#f8d7da;color:#721c24
+}
+
+.teams-card-actions{
+  display:flex;gap:8px;margin-top:10px
+}
+
+.teams-action-btn{
+  padding:6px 12px;background:#6264a7;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;font-weight:600;transition:background 0.2s
+}
+
+.teams-action-btn:hover{
+  background:#525aa7
+}
+
+.teams-reactions{
+  display:flex;gap:8px;margin-top:8px;font-size:12px
+}
+
+.teams-reaction{
+  display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:var(--neutral-100);border:1px solid var(--neutral-300);border-radius:14px;cursor:pointer;transition:all 0.2s;color:var(--neutral-700)
+}
+body.dark-mode .teams-reaction{background:var(--neutral-750);border-color:#3a3f45;color:var(--neutral-300)}
+
+.teams-reaction:hover{
+  background:var(--neutral-200);border-color:var(--neutral-400)
+}
+body.dark-mode .teams-reaction:hover{
+  background:var(--neutral-700);border-color:#4a5059
+}
+
+.teams-threaded{
+  margin-top:8px;padding:8px 12px;background:var(--neutral-50);border-left:3px solid #d0ccc8;border-radius:4px;cursor:pointer;font-size:12px;color:var(--primary);transition:background 0.2s
+}
+body.dark-mode .teams-threaded{background:var(--neutral-800);border-color:#3a3f45}
+
+.teams-threaded:hover{
+  background:var(--neutral-100)
+}
+body.dark-mode .teams-threaded:hover{
+  background:var(--neutral-750)
+}
+
+.teams-threaded-avatars{
+  display:inline-flex;margin-right:8px
+}
+
+.teams-threaded-avatar{
+  width:20px;height:20px;border-radius:50%;border:2px solid var(--neutral-50);margin-left:-8px;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:600
+}
+body.dark-mode .teams-threaded-avatar{border-color:var(--neutral-850)}
+
 .mention{
   color:var(--primary);font-weight:500;background:rgba(0,102,204,.08);padding:2px 6px;border-radius:4px
 }
 body.dark-mode .mention{background:rgba(0,102,204,.2)}
 
-.teams-message.bot .teams-text{
-  border-left:3px solid #7C3AED;padding-left:12px
-}
-
 .teams-input-area{
   padding:12px 20px;background:#fff;border-top:1px solid var(--neutral-200);flex-shrink:0
 }
-body.dark-mode .teams-input-area{background:var(--neutral-100);border-color:#374151}
+body.dark-mode .teams-input-area{background:var(--neutral-850);border-color:#3a3f45}
+
+.teams-compose-bar{
+  display:flex;align-items:flex-end;gap:8px;padding:12px 0;border-top:1px solid var(--neutral-200)
+}
+body.dark-mode .teams-compose-bar{border-color:#3a3f45}
 
 .teams-input-box{
-  display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:6px;color:var(--neutral-500)
+  flex:1;display:flex;flex-direction:column;gap:6px
 }
+
+.teams-input-field{
+  width:100%;padding:10px 12px;background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:6px;color:var(--neutral-700);font-size:13px;font-family:'Segoe UI','Helvetica Neue',sans-serif;resize:none;max-height:100px
+}
+body.dark-mode .teams-input-field{background:var(--neutral-800);border-color:#3a3f45;color:var(--neutral-200)}
+
+.teams-input-field:disabled{
+  opacity:0.6;cursor:not-allowed
+}
+
+.teams-input-field::placeholder{
+  color:var(--neutral-500)
+}
+
+.teams-toolbar{
+  display:flex;gap:4px
+}
+
+.teams-tool-btn{
+  width:32px;height:32px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--neutral-600);font-size:16px;transition:all 0.2s;border-radius:4px
+}
+
+.teams-tool-btn:hover{
+  background:var(--neutral-100)
+}
+body.dark-mode .teams-tool-btn:hover{
+  background:var(--neutral-800)
+}
+
+.teams-tool-btn:disabled{
+  opacity:0.5;cursor:not-allowed
+}
+
+.teams-typing-indicator{
+  display:flex;gap:4px;padding:4px 0
+}
+
+.teams-typing-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--neutral-400);animation:bounce 1.4s infinite
+}
+
+.teams-typing-dot:nth-child(2){animation-delay:0.2s}
+.teams-typing-dot:nth-child(3){animation-delay:0.4s}
 body.dark-mode .teams-input-box{background:var(--neutral-200);border-color:#4b5563}
 
 /* Responsive mobile optimizations */
@@ -1219,212 +1474,471 @@ body.dark-mode .teams-input-box{background:var(--neutral-200);border-color:#4b55
           </div>
         </div>
 
-        <div class="teams-container">
-          <div class="teams-header"># deal-desk</div>
-          <div class="teams-messages">
-
-            <!-- Message: Deal Assistant Bot - 8:30 AM -->
-            <div class="teams-message bot">
-              <div class="teams-avatar bot-avatar">
-                <span class="avatar-badge">🤖</span>
+        <div class="teams-main-container">
+          <!-- Teams Sidebar -->
+          <div class="teams-sidebar">
+            <div class="teams-sidebar-header">CHANNELS</div>
+            <div class="teams-sidebar-channels">
+              <div class="teams-channel-item active">
+                # deal-desk
+                <div class="teams-channel-unread">3</div>
               </div>
-              <div class="teams-content">
-                <div class="teams-meta">
-                  <span class="teams-author">Deal Assistant Bot</span>
-                  <span class="teams-time">8:30 AM</span>
-                </div>
-                <div class="teams-text">
-                  <strong>📋 Deal Update — Arctic Breeze Holdings:</strong> Document completion now at 72%. 13 of 18 documents received. 5 outstanding items flagged. <span class="mention">@Holly Gottschall</span> — the WOTC agreement is missing a required phone number field.
-                </div>
+              <div class="teams-channel-item">
+                # general
+              </div>
+              <div class="teams-channel-item" style="opacity:0.6">
+                # onboarding-status
               </div>
             </div>
-
-            <!-- Message: Holly Gottschall - 8:33 AM -->
-            <div class="teams-message user-hg">
-              <div class="teams-avatar hg-avatar">HG</div>
-              <div class="teams-content">
-                <div class="teams-meta">
-                  <span class="teams-author">Holly Gottschall</span>
-                  <span class="teams-time">8:33 AM</span>
-                </div>
-                <div class="teams-text">Thanks for the catch. That's a one-call fix — I'll reach out to the client this morning.</div>
-              </div>
-            </div>
-
-            <!-- Message: Deal Assistant Bot - 8:34 AM -->
-            <div class="teams-message bot">
-              <div class="teams-avatar bot-avatar">
-                <span class="avatar-badge">🤖</span>
-              </div>
-              <div class="teams-content">
-                <div class="teams-meta">
-                  <span class="teams-author">Deal Assistant Bot</span>
-                  <span class="teams-time">8:34 AM</span>
-                </div>
-                <div class="teams-text">
-                  <strong>📎 Validation Alert:</strong> Arctic Breeze Holdings — Direct Deposit Authorization (EIN: 47-2891034) has a routing number that doesn't match the bank name on file. Flagged for manual review.
-                </div>
-              </div>
-            </div>
-
-            <!-- Message: Corey Ando - 8:38 AM -->
-            <div class="teams-message user-ca">
-              <div class="teams-avatar ca-avatar">CA</div>
-              <div class="teams-content">
-                <div class="teams-meta">
-                  <span class="teams-author">Corey Ando</span>
-                  <span class="teams-time">8:38 AM</span>
-                </div>
-                <div class="teams-text">I've seen this before with Arctic — they switched banks last quarter. Let me verify with their CFO.</div>
-              </div>
-            </div>
-
-            <!-- Message: Holly Gottschall - 8:40 AM -->
-            <div class="teams-message user-hg">
-              <div class="teams-avatar hg-avatar">HG</div>
-              <div class="teams-content">
-                <div class="teams-meta">
-                  <span class="teams-author">Holly Gottschall</span>
-                  <span class="teams-time">8:40 AM</span>
-                </div>
-                <div class="teams-text">Good catch. That would have bounced the first payroll run.</div>
-              </div>
-            </div>
-
-            <!-- Message: Deal Assistant Bot - 8:45 AM -->
-            <div class="teams-message bot">
-              <div class="teams-avatar bot-avatar">
-                <span class="avatar-badge">🤖</span>
-              </div>
-              <div class="teams-content">
-                <div class="teams-meta">
-                  <span class="teams-author">Deal Assistant Bot</span>
-                  <span class="teams-time">8:45 AM</span>
-                </div>
-                <div class="teams-text">
-                  <strong>✅ WOTC agreement updated</strong> by Holly Gottschall. Phone number field now populated. Document status: COMPLETE.
-                </div>
-              </div>
-            </div>
-
-            <!-- Message: Deal Assistant Bot - 9:00 AM -->
-            <div class="teams-message bot">
-              <div class="teams-avatar bot-avatar">
-                <span class="avatar-badge">🤖</span>
-              </div>
-              <div class="teams-content">
-                <div class="teams-meta">
-                  <span class="teams-author">Deal Assistant Bot</span>
-                  <span class="teams-time">9:00 AM</span>
-                </div>
-                <div class="teams-text">
-                  <strong>📊 Morning Pipeline:</strong> 3 active deals. Clearwater Logistics — 100% complete, ready for acceptance. Arctic Breeze — 72% (5 items remaining). Summit Ridge — 45% (just started, 8 EINs).
-                </div>
-              </div>
-            </div>
-
-            <!-- Message: Kelly Blackburn - 9:05 AM -->
-            <div class="teams-message user-kb">
-              <div class="teams-avatar kb-avatar">KB</div>
-              <div class="teams-content">
-                <div class="teams-meta">
-                  <span class="teams-author">Kelly Blackburn</span>
-                  <span class="teams-time">9:05 AM</span>
-                </div>
-                <div class="teams-text">Summit Ridge is going to be complex — 8 EINs across 3 states. Can the system generate separate checklists per EIN?</div>
-              </div>
-            </div>
-
-            <!-- Message: Deal Assistant Bot - 9:06 AM -->
-            <div class="teams-message bot">
-              <div class="teams-avatar bot-avatar">
-                <span class="avatar-badge">🤖</span>
-              </div>
-              <div class="teams-content">
-                <div class="teams-meta">
-                  <span class="teams-author">Deal Assistant Bot</span>
-                  <span class="teams-time">9:06 AM</span>
-                </div>
-                <div class="teams-text">
-                  <strong>✅ Done.</strong> 8 entity-specific checklists generated for Summit Ridge. Total: 47 documents required across all entities. I've pre-mapped which documents can be shared across EINs vs. entity-specific.
-                </div>
-              </div>
-            </div>
-
-            <!-- Message: Kelly Blackburn - 9:08 AM -->
-            <div class="teams-message user-kb">
-              <div class="teams-avatar kb-avatar">KB</div>
-              <div class="teams-content">
-                <div class="teams-meta">
-                  <span class="teams-author">Kelly Blackburn</span>
-                  <span class="teams-time">9:08 AM</span>
-                </div>
-                <div class="teams-text">That's incredible. Would have taken me half a day to map that manually.</div>
-              </div>
-            </div>
-
-            <!-- Message: Natalie Hernandez - 9:15 AM -->
-            <div class="teams-message user-nh">
-              <div class="teams-avatar nh-avatar">NH</div>
-              <div class="teams-content">
-                <div class="teams-meta">
-                  <span class="teams-author">Natalie Hernandez</span>
-                  <span class="teams-time">9:15 AM</span>
-                </div>
-                <div class="teams-text">Clearwater is at 100% — all docs validated, signatures verified. Can we push to acceptance?</div>
-              </div>
-            </div>
-
-            <!-- Message: Deal Assistant Bot - 9:16 AM -->
-            <div class="teams-message bot">
-              <div class="teams-avatar bot-avatar">
-                <span class="avatar-badge">🤖</span>
-              </div>
-              <div class="teams-content">
-                <div class="teams-meta">
-                  <span class="teams-author">Deal Assistant Bot</span>
-                  <span class="teams-time">9:16 AM</span>
-                </div>
-                <div class="teams-text">
-                  <strong>✅ Clearwater Logistics ready for final acceptance.</strong> All 18 documents validated. Zero open issues. Compliance checks passed. <span class="mention">@Corey Ando</span> approval needed to proceed.
-                </div>
-              </div>
-            </div>
-
-            <!-- Message: Corey Ando - 9:18 AM -->
-            <div class="teams-message user-ca">
-              <div class="teams-avatar ca-avatar">CA</div>
-              <div class="teams-content">
-                <div class="teams-meta">
-                  <span class="teams-author">Corey Ando</span>
-                  <span class="teams-time">9:18 AM</span>
-                </div>
-                <div class="teams-text">Approved. Let's close this one out. 🎉</div>
-              </div>
-            </div>
-
-            <!-- Message: Deal Assistant Bot - 9:18 AM -->
-            <div class="teams-message bot">
-              <div class="teams-avatar bot-avatar">
-                <span class="avatar-badge">🤖</span>
-              </div>
-              <div class="teams-content">
-                <div class="teams-meta">
-                  <span class="teams-author">Deal Assistant Bot</span>
-                  <span class="teams-time">9:18 AM</span>
-                </div>
-                <div class="teams-text">
-                  <strong>🎉 Deal Accepted:</strong> Clearwater Logistics — Marcus Chen, 87 employees, 1 EIN. All documents archived. Salesforce updated. Implementation handoff initiated.
-                </div>
-              </div>
-            </div>
-
           </div>
 
-          <!-- Teams Input Area -->
-          <div class="teams-input-area">
-            <div class="teams-input-box">
-              <span style="color: var(--neutral-500); font-size: 13px;">Message is disabled in this demo</span>
+          <!-- Main Content Area -->
+          <div class="teams-content-area">
+            <!-- Header Bar -->
+            <div class="teams-header-bar">
+              <div class="teams-header-left">
+                <div>
+                  <div class="teams-channel-name"># deal-desk</div>
+                </div>
+                <div class="teams-tabs">
+                  <div class="teams-tab active">Posts</div>
+                  <div class="teams-tab">Files</div>
+                  <div class="teams-tab">Wiki</div>
+                </div>
+              </div>
+              <div class="teams-header-right">
+                <div class="teams-member-count">👥 4 members</div>
+                <button class="teams-icon-btn" title="Start video call">📹</button>
+                <button class="teams-icon-btn" title="Start audio call">🎤</button>
+              </div>
+            </div>
+
+            <!-- Messages Area -->
+            <div class="teams-messages-container" id="teams-messages">
+              <div class="teams-new-messages-divider">
+                <div class="teams-new-messages-line"></div>
+                <span>● New messages</span>
+              </div>
+
+              <!-- Message 1: Deal Assistant Bot - Deal Update Card -->
+              <div class="teams-message" style="--delay:0">
+                <div class="teams-avatar bot-avatar">
+                  <span class="avatar-badge">🤖</span>
+                </div>
+                <div class="teams-content" style="flex:1">
+                  <div class="teams-meta">
+                    <span class="teams-author">Deal Assistant Bot</span>
+                    <span class="teams-time">8:30 AM</span>
+                  </div>
+                  <div class="teams-card">
+                    <div class="teams-card-title">📋 Arctic Breeze Holdings — Deal Update</div>
+                    <div class="teams-card-row">
+                      <span class="teams-card-label">Documents Received:</span>
+                      <span class="teams-card-value">13 of 18 (72%)</span>
+                    </div>
+                    <div class="teams-progress-bar">
+                      <div class="teams-progress-fill" style="width:72%"></div>
+                    </div>
+                    <div style="font-size:12px;color:var(--neutral-700);margin-top:8px;margin-bottom:8px">
+                      <strong>⚠️ 5 Outstanding Items:</strong>
+                    </div>
+                    <div style="font-size:12px;color:var(--neutral-600);margin-bottom:10px">
+                      • WOTC agreement — <span class="mention">@Holly Gottschall</span> phone number field blank<br>
+                      • Direct Deposit Auth — routing number mismatch<br>
+                      • State POA (FL) — pending<br>
+                      • I-9 validation — needs re-verification<br>
+                      • Bank authorization — awaiting signature
+                    </div>
+                    <div class="teams-card-actions">
+                      <button class="teams-action-btn">View Checklist</button>
+                      <button class="teams-action-btn" style="background:#c41e3a">Flag Issue</button>
+                    </div>
+                  </div>
+                  <div class="teams-reactions">
+                    <div class="teams-reaction">👍 2</div>
+                    <div class="teams-reaction">🔔 3</div>
+                  </div>
+                  <div class="teams-message-actions">
+                    <button class="teams-message-action-btn">👍</button>
+                    <button class="teams-message-action-btn">❤️</button>
+                    <button class="teams-message-action-btn">😮</button>
+                    <button class="teams-message-action-btn">💬</button>
+                    <button class="teams-message-action-btn">⋯</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 2: Holly Gottschall -->
+              <div class="teams-message" style="--delay:1">
+                <div class="teams-avatar hg-avatar">HG</div>
+                <div class="teams-content">
+                  <div class="teams-meta">
+                    <span class="teams-author">Holly Gottschall</span>
+                    <span class="teams-time">8:33 AM</span>
+                  </div>
+                  <div class="teams-text">Thanks for the catch. That's a one-call fix — I'll reach out to the client this morning.</div>
+                  <div class="teams-reactions">
+                    <div class="teams-reaction">✅ 1</div>
+                  </div>
+                  <div class="teams-message-actions">
+                    <button class="teams-message-action-btn">👍</button>
+                    <button class="teams-message-action-btn">❤️</button>
+                    <button class="teams-message-action-btn">😮</button>
+                    <button class="teams-message-action-btn">💬</button>
+                    <button class="teams-message-action-btn">⋯</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 3: Deal Assistant Bot - Validation Alert Card -->
+              <div class="teams-message" style="--delay:2">
+                <div class="teams-avatar bot-avatar">
+                  <span class="avatar-badge">🤖</span>
+                </div>
+                <div class="teams-content" style="flex:1">
+                  <div class="teams-meta">
+                    <span class="teams-author">Deal Assistant Bot</span>
+                    <span class="teams-time">8:34 AM</span>
+                  </div>
+                  <div class="teams-card">
+                    <div class="teams-card-title">⚠️ Validation Alert — Direct Deposit Auth</div>
+                    <div class="teams-card-row">
+                      <span class="teams-card-label">Client:</span>
+                      <span class="teams-card-value">Arctic Breeze Holdings</span>
+                    </div>
+                    <div class="teams-card-row">
+                      <span class="teams-card-label">EIN:</span>
+                      <span class="teams-card-value">47-2891034</span>
+                    </div>
+                    <div class="teams-card-row">
+                      <span class="teams-card-label">Issue:</span>
+                      <span class="teams-card-value" style="color:#c41e3a">Routing mismatch</span>
+                    </div>
+                    <div style="font-size:12px;color:var(--neutral-700);margin-top:8px;padding:8px;background:var(--neutral-100);border-radius:4px">
+                      Routing number 021000021 doesn't match bank name "Fifth Third Bank" on file. Verify with client CFO before processing.
+                    </div>
+                    <div class="teams-card-actions">
+                      <button class="teams-action-btn">Mark Complete</button>
+                      <button class="teams-action-btn" style="background:#6c757d">Skip</button>
+                    </div>
+                  </div>
+                  <div class="teams-message-actions">
+                    <button class="teams-message-action-btn">👍</button>
+                    <button class="teams-message-action-btn">❤️</button>
+                    <button class="teams-message-action-btn">😮</button>
+                    <button class="teams-message-action-btn">💬</button>
+                    <button class="teams-message-action-btn">⋯</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 4: Corey Ando -->
+              <div class="teams-message" style="--delay:3">
+                <div class="teams-avatar ca-avatar">CA</div>
+                <div class="teams-content">
+                  <div class="teams-meta">
+                    <span class="teams-author">Corey Ando</span>
+                    <span class="teams-time">8:38 AM</span>
+                  </div>
+                  <div class="teams-text">I've seen this before with Arctic — they switched banks last quarter. Let me verify with their CFO.</div>
+                  <div class="teams-message-actions">
+                    <button class="teams-message-action-btn">👍</button>
+                    <button class="teams-message-action-btn">❤️</button>
+                    <button class="teams-message-action-btn">😮</button>
+                    <button class="teams-message-action-btn">💬</button>
+                    <button class="teams-message-action-btn">⋯</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 5: Holly Gottschall -->
+              <div class="teams-message" style="--delay:4">
+                <div class="teams-avatar hg-avatar">HG</div>
+                <div class="teams-content">
+                  <div class="teams-meta">
+                    <span class="teams-author">Holly Gottschall</span>
+                    <span class="teams-time">8:40 AM</span>
+                  </div>
+                  <div class="teams-text">Good catch. That would have bounced the first payroll run.</div>
+                  <div class="teams-message-actions">
+                    <button class="teams-message-action-btn">👍</button>
+                    <button class="teams-message-action-btn">❤️</button>
+                    <button class="teams-message-action-btn">😮</button>
+                    <button class="teams-message-action-btn">💬</button>
+                    <button class="teams-message-action-btn">⋯</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 6: Deal Assistant Bot - Status Update -->
+              <div class="teams-message" style="--delay:5">
+                <div class="teams-avatar bot-avatar">
+                  <span class="avatar-badge">🤖</span>
+                </div>
+                <div class="teams-content">
+                  <div class="teams-meta">
+                    <span class="teams-author">Deal Assistant Bot</span>
+                    <span class="teams-time">8:45 AM</span>
+                  </div>
+                  <div class="teams-text">
+                    <strong>✅ WOTC agreement updated</strong> by Holly Gottschall. Phone number field now populated.
+                  </div>
+                  <div style="margin-top:8px">
+                    <span class="teams-status-badge complete">🟢 Complete</span>
+                  </div>
+                  <div class="teams-message-actions">
+                    <button class="teams-message-action-btn">👍</button>
+                    <button class="teams-message-action-btn">❤️</button>
+                    <button class="teams-message-action-btn">😮</button>
+                    <button class="teams-message-action-btn">💬</button>
+                    <button class="teams-message-action-btn">⋯</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 7: Deal Assistant Bot - Pipeline Summary -->
+              <div class="teams-message" style="--delay:6">
+                <div class="teams-avatar bot-avatar">
+                  <span class="avatar-badge">🤖</span>
+                </div>
+                <div class="teams-content" style="flex:1">
+                  <div class="teams-meta">
+                    <span class="teams-author">Deal Assistant Bot</span>
+                    <span class="teams-time">9:00 AM</span>
+                  </div>
+                  <div class="teams-card">
+                    <div class="teams-card-title">📊 Morning Pipeline Summary</div>
+                    <div style="font-size:12px;line-height:1.8;color:var(--neutral-700)">
+                      <div style="margin-bottom:10px">
+                        <strong>Clearwater Logistics</strong><br>
+                        <span style="color:var(--neutral-600)">18/18 docs · Signatures verified</span><br>
+                        <span class="teams-status-badge complete">🟢 100% Complete</span>
+                      </div>
+                      <div style="margin-bottom:10px">
+                        <strong>Arctic Breeze Holdings</strong><br>
+                        <span style="color:var(--neutral-600)">13/18 docs · 5 outstanding</span><br>
+                        <span class="teams-status-badge inprogress">🟡 72% In Progress</span>
+                      </div>
+                      <div>
+                        <strong>Summit Ridge</strong><br>
+                        <span style="color:var(--neutral-600)">Multi-EIN: 8 entities across 3 states</span><br>
+                        <span class="teams-status-badge inprogress">🟡 45% In Progress</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="teams-message-actions">
+                    <button class="teams-message-action-btn">👍</button>
+                    <button class="teams-message-action-btn">❤️</button>
+                    <button class="teams-message-action-btn">😮</button>
+                    <button class="teams-message-action-btn">💬</button>
+                    <button class="teams-message-action-btn">⋯</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 8: Kelly Blackburn -->
+              <div class="teams-message" style="--delay:7">
+                <div class="teams-avatar kb-avatar">KB</div>
+                <div class="teams-content">
+                  <div class="teams-meta">
+                    <span class="teams-author">Kelly Blackburn</span>
+                    <span class="teams-time">9:05 AM</span>
+                  </div>
+                  <div class="teams-text">Summit Ridge is going to be complex — 8 EINs across 3 states. Can the system generate separate checklists per EIN?</div>
+                  <div class="teams-threaded">
+                    <span class="teams-threaded-avatars">
+                      <div class="teams-threaded-avatar" style="background:linear-gradient(135deg,#7C3AED,#A78BFA)">🤖</div>
+                    </span>
+                    <strong>3 replies</strong>
+                  </div>
+                  <div class="teams-message-actions">
+                    <button class="teams-message-action-btn">👍</button>
+                    <button class="teams-message-action-btn">❤️</button>
+                    <button class="teams-message-action-btn">😮</button>
+                    <button class="teams-message-action-btn">💬</button>
+                    <button class="teams-message-action-btn">⋯</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 9: Deal Assistant Bot - Feature response -->
+              <div class="teams-message" style="--delay:8">
+                <div class="teams-avatar bot-avatar">
+                  <span class="avatar-badge">🤖</span>
+                </div>
+                <div class="teams-content">
+                  <div class="teams-meta">
+                    <span class="teams-author">Deal Assistant Bot</span>
+                    <span class="teams-time">9:06 AM</span>
+                  </div>
+                  <div class="teams-text">
+                    <strong>✅ Done.</strong> 8 entity-specific checklists generated for Summit Ridge. Total: 47 documents required across all entities. I've pre-mapped which documents can be shared across EINs vs. entity-specific.
+                  </div>
+                  <div style="margin-top:8px">
+                    <span class="teams-status-badge complete">🟢 Complete</span>
+                  </div>
+                  <div class="teams-message-actions">
+                    <button class="teams-message-action-btn">👍</button>
+                    <button class="teams-message-action-btn">❤️</button>
+                    <button class="teams-message-action-btn">😮</button>
+                    <button class="teams-message-action-btn">💬</button>
+                    <button class="teams-message-action-btn">⋯</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 10: Kelly Blackburn -->
+              <div class="teams-message" style="--delay:9">
+                <div class="teams-avatar kb-avatar">KB</div>
+                <div class="teams-content">
+                  <div class="teams-meta">
+                    <span class="teams-author">Kelly Blackburn</span>
+                    <span class="teams-time">9:08 AM</span>
+                  </div>
+                  <div class="teams-text">That's incredible. Would have taken me half a day to map that manually.</div>
+                  <div class="teams-message-actions">
+                    <button class="teams-message-action-btn">👍</button>
+                    <button class="teams-message-action-btn">❤️</button>
+                    <button class="teams-message-action-btn">😮</button>
+                    <button class="teams-message-action-btn">💬</button>
+                    <button class="teams-message-action-btn">⋯</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 11: Natalie Hernandez -->
+              <div class="teams-message" style="--delay:10">
+                <div class="teams-avatar nh-avatar">NH</div>
+                <div class="teams-content">
+                  <div class="teams-meta">
+                    <span class="teams-author">Natalie Hernandez</span>
+                    <span class="teams-time">9:15 AM</span>
+                  </div>
+                  <div class="teams-text">Clearwater is at 100% — all docs validated, signatures verified. Can we push to acceptance?</div>
+                  <div class="teams-message-actions">
+                    <button class="teams-message-action-btn">👍</button>
+                    <button class="teams-message-action-btn">❤️</button>
+                    <button class="teams-message-action-btn">😮</button>
+                    <button class="teams-message-action-btn">💬</button>
+                    <button class="teams-message-action-btn">⋯</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 12: Deal Assistant Bot - Final Approval Card -->
+              <div class="teams-message" style="--delay:11">
+                <div class="teams-avatar bot-avatar">
+                  <span class="avatar-badge">🤖</span>
+                </div>
+                <div class="teams-content" style="flex:1">
+                  <div class="teams-meta">
+                    <span class="teams-author">Deal Assistant Bot</span>
+                    <span class="teams-time">9:16 AM</span>
+                  </div>
+                  <div class="teams-card">
+                    <div class="teams-card-title">✅ Clearwater Logistics — Ready for Acceptance</div>
+                    <div class="teams-card-row">
+                      <span class="teams-card-label">Documents:</span>
+                      <span class="teams-card-value">18/18 Validated</span>
+                    </div>
+                    <div class="teams-card-row">
+                      <span class="teams-card-label">Compliance:</span>
+                      <span class="teams-card-value" style="color:#28a745">Passed</span>
+                    </div>
+                    <div class="teams-card-row">
+                      <span class="teams-card-label">Open Issues:</span>
+                      <span class="teams-card-value" style="color:#28a745">Zero</span>
+                    </div>
+                    <div style="font-size:12px;color:var(--neutral-700);margin-top:8px;padding:8px;background:var(--neutral-100);border-radius:4px">
+                      All documents validated. Signatures verified. Compliance checks passed. <span class="mention">@Corey Ando</span> approval required to proceed to acceptance.
+                    </div>
+                    <div class="teams-card-actions">
+                      <button class="teams-action-btn">Move to Acceptance</button>
+                    </div>
+                  </div>
+                  <div class="teams-message-actions">
+                    <button class="teams-message-action-btn">👍</button>
+                    <button class="teams-message-action-btn">❤️</button>
+                    <button class="teams-message-action-btn">😮</button>
+                    <button class="teams-message-action-btn">💬</button>
+                    <button class="teams-message-action-btn">⋯</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 13: Corey Ando -->
+              <div class="teams-message" style="--delay:12">
+                <div class="teams-avatar ca-avatar">CA</div>
+                <div class="teams-content">
+                  <div class="teams-meta">
+                    <span class="teams-author">Corey Ando</span>
+                    <span class="teams-time">9:18 AM</span>
+                  </div>
+                  <div class="teams-text">Approved. Let's close this one out. 🎉</div>
+                  <div class="teams-message-actions">
+                    <button class="teams-message-action-btn">👍</button>
+                    <button class="teams-message-action-btn">❤️</button>
+                    <button class="teams-message-action-btn">😮</button>
+                    <button class="teams-message-action-btn">💬</button>
+                    <button class="teams-message-action-btn">⋯</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 14: Deal Assistant Bot - Deal Accepted -->
+              <div class="teams-message" style="--delay:13">
+                <div class="teams-avatar bot-avatar">
+                  <span class="avatar-badge">🤖</span>
+                </div>
+                <div class="teams-content">
+                  <div class="teams-meta">
+                    <span class="teams-author">Deal Assistant Bot</span>
+                    <span class="teams-time">9:18 AM</span>
+                  </div>
+                  <div class="teams-text">
+                    <strong>🎉 Deal Accepted:</strong> Clearwater Logistics — Marcus Chen, 87 employees, 1 EIN. All documents archived. Salesforce updated. Implementation handoff initiated.
+                  </div>
+                  <div style="margin-top:8px">
+                    <span class="teams-status-badge complete">🟢 Accepted</span>
+                  </div>
+                  <div class="teams-message-actions">
+                    <button class="teams-message-action-btn">👍</button>
+                    <button class="teams-message-action-btn">❤️</button>
+                    <button class="teams-message-action-btn">😮</button>
+                    <button class="teams-message-action-btn">💬</button>
+                    <button class="teams-message-action-btn">⋯</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Typing Indicator -->
+              <div style="display:flex;gap:12px;margin-top:16px">
+                <div class="teams-avatar bot-avatar" style="flex-shrink:0">
+                  <span class="avatar-badge">🤖</span>
+                </div>
+                <div class="teams-typing-indicator" id="typing-indicator" style="display:none">
+                  <div class="teams-typing-dot"></div>
+                  <div class="teams-typing-dot"></div>
+                  <div class="teams-typing-dot"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="teams-input-area">
+              <div class="teams-compose-bar">
+                <div class="teams-input-box">
+                  <input type="text" class="teams-input-field" placeholder="Type a new message" disabled>
+                </div>
+                <div class="teams-toolbar">
+                  <button class="teams-tool-btn" disabled title="Format">📝</button>
+                  <button class="teams-tool-btn" disabled title="Attach file">📎</button>
+                  <button class="teams-tool-btn" disabled title="Add emoji">😊</button>
+                  <button class="teams-tool-btn" disabled title="GIF">🎬</button>
+                  <button class="teams-tool-btn" disabled title="Stickers">✨</button>
+                  <button class="teams-tool-btn" disabled title="Schedule">⏱️</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1503,6 +2017,31 @@ function nav(id){
 function onEnter(id){
   if(id!=='s-problem'&&ST.banner==='hidden')setTimeout(()=>showBanner('active'),700);
   if(id==='s-validator')startCountdown();
+  if(id==='s-collab')initTeamsAnimation();
+}
+
+function initTeamsAnimation(){
+  const messages=document.querySelectorAll('#teams-messages .teams-message');
+  const typingIndicator=document.getElementById('typing-indicator');
+
+  // Set initial state - all hidden
+  messages.forEach(msg=>msg.style.opacity='0');
+  if(typingIndicator)typingIndicator.style.display='none';
+
+  // Stagger in messages
+  messages.forEach((msg,idx)=>{
+    msg.style.animationDelay=(idx*150)+'ms';
+    msg.style.opacity='1';
+  });
+
+  // Show typing indicator after last message
+  const lastDelay=messages.length*150+800;
+  setTimeout(()=>{
+    if(typingIndicator){
+      typingIndicator.style.display='flex';
+      setTimeout(()=>typingIndicator.style.display='none',2000);
+    }
+  },lastDelay);
 }
 
 function showBanner(state){
