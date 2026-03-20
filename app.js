@@ -555,8 +555,8 @@ function buildChecklist(products, eins, statesStr) {
       const formName = STATE_POA_MAP[code] || `${code} Power of Attorney`;
       docs.push({ group:'State Documents', name:formName, icon:'🏛️', qty:eins,
         cssClass:'state', tag:'tag-state', tagLabel:'State',
-        detail:`State-specific POA for ${code}. ${code==='FL'?'DR-835 — Paycor countersignature required. Florida Tax Reg. No. may be "Applied For".':'Verify required form with compliance team.'}${eins>1?` ${eins} copies.`:''}`,
-        fields:['Taxpayer Name','FEIN',`${code} Tax Registration No.`,'Paycor as representative','Tax Type','Taxpayer Signature','Date','Paycor countersignature'] });
+        detail:'State-specific POA for ' + code + '. ' + (code==='FL'?'DR-835 (Florida Dept of Revenue). Reemployment Tax agent. Florida Tax Reg. No. may be Applied For. Paycor countersignature required.':'Verify required form with compliance team.') + (eins>1?' '+eins+' copies required.':''),
+        fields:['Taxpayer Name','FEIN', code+' Tax Registration No.','Paycor as representative','Tax Type','Taxpayer Signature','Date','Paycor countersignature'] });
     });
   }
 
